@@ -1,19 +1,28 @@
 
 import React from 'react';
 import { TrendingUp, Play } from 'lucide-react';
-import { Track } from '../types';
+import { useTracksStore } from '../stores/useTracksStore';
+import { usePlayerStore } from '../stores/usePlayerStore';
+import { SEO } from '../components/SEO';
 
-interface TrendsProps {
-  onPlay: (track: Track) => void;
-  tracks: Track[];
-}
+export const Trends: React.FC = () => {
+  const { tracks } = useTracksStore();
+  const { setPlaylist, setTrack } = usePlayerStore();
 
-export const Trends: React.FC<TrendsProps> = ({ onPlay, tracks }) => {
+  const onPlay = (track: any) => {
+    const trending = [...tracks].sort((a, b) => b.plays - a.plays).slice(0, 5);
+    const index = trending.findIndex(t => t.id === track.id);
+    setPlaylist(trending, index >= 0 ? index : 0);
+    setTrack(track);
+  };
+
   // Sort by plays descending
   const trendingTracks = [...tracks].sort((a, b) => b.plays - a.plays).slice(0, 5);
 
   return (
-    <div className="space-y-8">
+    <>
+      <SEO title="Trending Now" description="Top trending tracks on NORMAL DANCE" />
+      <div className="space-y-8">
       <h2 className="text-3xl font-display font-bold text-white">Trending Now</h2>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -27,7 +36,7 @@ export const Trends: React.FC<TrendsProps> = ({ onPlay, tracks }) => {
             >
               <span className="text-2xl font-bold text-gray-600 w-8 text-center group-hover:text-violet-400">{idx + 1}</span>
               <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                  <img src={track.coverUrl} alt={track.title} className="w-full h-full object-cover" />
+                  <img src={track.coverUrl} alt={track.title} loading="lazy" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                       <Play size={20} className="text-white" fill="currentColor" />
                   </div>
@@ -71,5 +80,6 @@ export const Trends: React.FC<TrendsProps> = ({ onPlay, tracks }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };

@@ -1,0 +1,1 @@
+Added toolchain: ESLint, Prettier, Husky, Vitest. Scripts updated. Ensure to run: npm install && npm run prepare

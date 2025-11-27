@@ -1,5 +1,6 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { GenreTileSkeleton } from '../components/Skeleton';
 
 const CATEGORIES = [
   { name: 'Electronic', color: 'from-blue-500 to-purple-600' },
@@ -13,6 +14,12 @@ const CATEGORIES = [
 ];
 
 export const Explore: React.FC = () => {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 400);
+    return () => clearTimeout(t);
+  }, []);
+
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
@@ -20,12 +27,14 @@ export const Explore: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {CATEGORIES.map(cat => (
-          <div key={cat.name} className={`h-40 rounded-2xl bg-gradient-to-br ${cat.color} p-6 relative overflow-hidden group cursor-pointer hover:scale-[1.02] transition`}>
-             <h3 className="text-2xl font-bold text-white relative z-10">{cat.name}</h3>
-             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-white/20 rounded-full blur-xl group-hover:scale-150 transition duration-500"></div>
-          </div>
-        ))}
+        {loading
+          ? Array.from({ length: CATEGORIES.length }).map((_, i) => <GenreTileSkeleton key={i} />)
+          : CATEGORIES.map(cat => (
+              <div key={cat.name} className={`h-40 rounded-2xl bg-gradient-to-br ${cat.color} p-6 relative overflow-hidden group cursor-pointer hover:scale-[1.02] transition`}>
+                <h3 className="text-2xl font-bold text-white relative z-10">{cat.name}</h3>
+                <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-white/20 rounded-full blur-xl group-hover:scale-150 transition duration-500"></div>
+              </div>
+            ))}
       </div>
 
       <div className="glass-panel p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
@@ -37,8 +46,8 @@ export const Explore: React.FC = () => {
           <button className="bg-white text-black px-6 py-2 rounded-full font-bold mt-4 hover:bg-gray-200 transition">Play Now</button>
         </div>
         <div className="flex gap-4 relative z-10">
-           <img src="https://picsum.photos/200/200?random=50" className="w-32 h-32 rounded-lg shadow-lg -rotate-6 border border-white/10" alt="cover1" />
-           <img src="https://picsum.photos/200/200?random=51" className="w-32 h-32 rounded-lg shadow-lg rotate-3 z-10 border border-white/10" alt="cover2" />
+           <img src="https://picsum.photos/200/200?random=50" loading="lazy" className="w-32 h-32 rounded-lg shadow-lg -rotate-6 border border-white/10" alt="cover1" />
+           <img src="https://picsum.photos/200/200?random=51" loading="lazy" className="w-32 h-32 rounded-lg shadow-lg rotate-3 z-10 border border-white/10" alt="cover2" />
         </div>
       </div>
     </div>

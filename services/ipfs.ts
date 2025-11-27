@@ -4,6 +4,7 @@ import { create as createIPFSClient } from 'ipfs-http-client';
 const IPFS_PROJECT_ID = import.meta.env.VITE_IPFS_PROJECT_ID || '';
 const IPFS_PROJECT_SECRET = import.meta.env.VITE_IPFS_PROJECT_SECRET || '';
 const IPFS_GATEWAY = import.meta.env.VITE_IPFS_GATEWAY || 'https://ipfs.io/ipfs/';
+const PINATA_GATEWAY = import.meta.env.VITE_PINATA_GATEWAY || 'https://gateway.pinata.cloud/ipfs/';
 
 // Create IPFS client
 const auth = IPFS_PROJECT_ID && IPFS_PROJECT_SECRET
@@ -87,7 +88,7 @@ export const ipfsService = {
             if (data.IpfsHash) {
                 return {
                     hash: data.IpfsHash,
-                    url: `https://gateway.pinata.cloud/ipfs/${data.IpfsHash}`,
+                    url: `${PINATA_GATEWAY}${data.IpfsHash}`,
                     size: file.size,
                 };
             }

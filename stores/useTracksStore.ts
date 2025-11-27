@@ -42,18 +42,26 @@ export const useTracksStore = create<TracksState>((set, get) => ({
                 track.id === id ? { ...track, ...updates } : track
             )
         }));
-        // Sync with localStorage
+        // Sync with localStorage (browser only)
         const { tracks } = get();
-        localStorage.setItem('normaldance_db_tracks', JSON.stringify(tracks));
+        try {
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('normaldance_db_tracks', JSON.stringify(tracks));
+            }
+        } catch {}
     },
 
     deleteTrack: (id) => {
         set((state) => ({
             tracks: state.tracks.filter((track) => track.id !== id)
         }));
-        // Sync with localStorage
+        // Sync with localStorage (browser only)
         const { tracks } = get();
-        localStorage.setItem('normaldance_db_tracks', JSON.stringify(tracks));
+        try {
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('normaldance_db_tracks', JSON.stringify(tracks));
+            }
+        } catch {}
     },
 
     likeTrack: (id) => {

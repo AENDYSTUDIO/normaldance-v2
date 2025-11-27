@@ -5,7 +5,7 @@ import {
   Wallet, Disc, Coins, BarChart2, Skull, Settings,
   Menu, X
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { LazyMotionDiv, LazyAnimatePresence } from './LazyMotion';
 import { PlayerBar } from './PlayerBar';
 import { usePlayerStore } from '../stores/usePlayerStore';
 
@@ -34,7 +34,7 @@ const SidebarItem: React.FC<{
       <Icon size={20} className={active ? 'text-violet-400' : 'text-gray-500 group-hover:text-white'} />
       <span className="font-medium text-sm">{label}</span>
       {active && (
-        <motion.div
+        <LazyMotionDiv
           layoutId="activeIndicator"
           className="ml-auto w-1.5 h-1.5 rounded-full bg-violet-400"
         />
@@ -133,8 +133,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
         {/* Scrollable Page Content */}
         <div className="flex-1 overflow-y-auto p-4 lg:p-8 pb-32">
-          <AnimatePresence mode="wait">
-            <motion.div
+          <LazyAnimatePresence mode="wait">
+            <LazyMotionDiv
               key={location.pathname}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -143,8 +143,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
               className="max-w-7xl mx-auto"
             >
               {children}
-            </motion.div>
-          </AnimatePresence>
+            </LazyMotionDiv>
+          </LazyAnimatePresence>
         </div>
 
         {/* Floating Player Bar */}
