@@ -19,15 +19,23 @@ const Auth = lazy(() => import('../pages/Auth').then(m => ({ default: m.Auth }))
 
 // Loading fallback component
 const PageLoader = () => (
-    <div className="flex items-center justify-center h-full">
-        <div className="flex flex-col items-center space-y-4">
-            <div className="w-12 h-12 border-4 border-violet-500/30 border-t-violet-500 rounded-full animate-spin" />
-            <span className="text-gray-400 text-sm">Loading...</span>
-        </div>
+  <div className="flex items-center justify-center h-full p-8">
+    <div className="w-full max-w-5xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div className="glass-panel p-6 rounded-2xl animate-pulse h-40" />
+        <div className="glass-panel p-6 rounded-2xl animate-pulse h-40" />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="glass-panel p-6 rounded-2xl animate-pulse h-32" />
+        ))}
+      </div>
     </div>
+  </div>
 );
 
 // Protected route wrapper
+import type React from 'react';
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const { isAuthenticated } = useAuthStore();
 

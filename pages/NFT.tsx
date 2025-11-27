@@ -1,18 +1,18 @@
 
 import React from 'react';
 import { ShoppingBag, Filter } from 'lucide-react';
-import { Track } from '../types';
+import { useTracksStore } from '../stores/useTracksStore';
+import { SEO } from '../components/SEO';
 
-interface NFTProps {
-    tracks: Track[];
-}
-
-export const NFT: React.FC<NFTProps> = ({ tracks }) => {
+export const NFT: React.FC = () => {
+  const { tracks } = useTracksStore();
   // Filter for tracks that are NFTs
   const nftTracks = tracks.filter(t => t.isNft);
 
   return (
-    <div className="space-y-8">
+    <>
+      <SEO title="NFT Marketplace" description="Collect unique music NFTs on NORMAL DANCE" />
+      <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-display font-bold text-white">NFT Marketplace</h2>
@@ -33,7 +33,7 @@ export const NFT: React.FC<NFTProps> = ({ tracks }) => {
             {nftTracks.map((track, i) => (
             <div key={track.id} className="glass-panel p-3 rounded-2xl hover:-translate-y-1 transition duration-300 group">
                 <div className="relative aspect-square rounded-xl overflow-hidden mb-3">
-                <img src={track.coverUrl} alt={track.title} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                <img src={track.coverUrl} alt={track.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
                 <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-2 py-1 rounded-md border border-violet-500/30">
                     <span className="text-xs font-bold text-violet-300">#{track.id.substring(0,4)}</span>
                 </div>
@@ -57,5 +57,6 @@ export const NFT: React.FC<NFTProps> = ({ tracks }) => {
         </div>
       )}
     </div>
+    </>
   );
 };

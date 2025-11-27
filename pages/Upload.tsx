@@ -7,6 +7,8 @@ import { Track } from '../types';
 // import { tracksService } from '../services/supabase';
 import { useTracksStore } from '../stores/useTracksStore';
 import { useAuthStore } from '../stores/useAuthStore';
+import { useToastStore } from '../stores/useToastStore';
+import { generateId } from '../utils/helpers';
 
 export const Upload: React.FC = () => {
   const [audioFile, setAudioFile] = useState<File | null>(null);
@@ -26,6 +28,7 @@ export const Upload: React.FC = () => {
 
   const { addTrack } = useTracksStore();
   const { user } = useAuthStore();
+  const { addToast } = useToastStore();
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -59,7 +62,7 @@ export const Upload: React.FC = () => {
         setCoverFile(file);
         setCoverPreview(URL.createObjectURL(file));
       } else {
-        alert("Please upload an image file");
+        addToast('Please upload an image file', 'warning');
       }
     }
   };
@@ -70,13 +73,13 @@ export const Upload: React.FC = () => {
       setTitle(selectedFile.name.replace(/\.[^/.]+$/, "")); // Remove extension
       setArtist(user?.username || "Unknown Artist");
     } else {
-      alert("Please upload an audio file");
+      addToast('Please upload an audio file', 'warning');
     }
   };
 
   const handleSubmit = async () => {
     if (!audioFile || !title || !artist) {
-      alert('Please fill in all required fields');
+      addToast('Please fill in all required fields', 'warning');
       return;
     }
 
@@ -122,8 +125,9 @@ export const Upload: React.FC = () => {
       });
 
       if (newTrack) {
-        // Update local store
+        // Update local store (from DB)
         addTrack(newTrack);
+        addToast('Track published successfully', 'success');
 
         setUploadProgress('Upload complete!');
 
@@ -132,13 +136,35 @@ export const Upload: React.FC = () => {
           resetForm();
           setIsUploading(false);
           setUploadProgress('');
-        }, 1500);
+        }, 1200);
       } else {
-        throw new Error('Failed to save track');
+        // Supabase not configured or DB insert failed — fallback to local store
+        const localTrack: Track = {
+          id: generateId(),
+          title,
+          artist,
+          duration,
+          coverUrl: coverUrl,
+          audioUrl: ipfsResult.audioUrl,
+          plays: 0,
+          likes: 0,
+          isNft,
+          dateAdded: new Date().toISOString(),
+          description,
+        };
+        addTrack(localTrack);
+        addToast('Supabase not configured — saved locally', 'warning');
+
+        setUploadProgress('Upload complete!');
+        setTimeout(() => {
+          resetForm();
+          setIsUploading(false);
+          setUploadProgress('');
+        }, 1200);
       }
     } catch (error) {
       console.error('Upload error:', error);
-      alert('Failed to upload track. Please try again.');
+      addToast('Failed to upload track. Please try again.', 'error');
       setIsUploading(false);
       setUploadProgress('');
     }

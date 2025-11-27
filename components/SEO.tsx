@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import type { FC } from 'react';
 
 interface SEOProps {
     title?: string;
@@ -11,7 +12,7 @@ const DEFAULT_TITLE = 'NORMAL DANCE - Web3 Music Platform';
 const DEFAULT_DESCRIPTION = 'Discover, upload, and mint music as NFTs on the decentralized NORMAL DANCE platform';
 const DEFAULT_IMAGE = 'https://picsum.photos/1200/630?random=og';
 
-export const SEO: React.FC<SEOProps> = ({
+export const SEO: FC<SEOProps> = ({
     title,
     description = DEFAULT_DESCRIPTION,
     image = DEFAULT_IMAGE,

@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import { useToastStore } from '../stores/useToastStore';
 
 // Web3 Wallet Types
 export interface WalletInfo {
@@ -18,13 +19,19 @@ declare global {
 export const web3Service = {
     // Check if MetaMask is installed
     isMetaMaskInstalled(): boolean {
-        return typeof window.ethereum !== 'undefined';
+        return typeof window !== 'undefined' && typeof window.ethereum !== 'undefined';
     },
 
     // Connect to MetaMask
     async connectMetaMask(): Promise<WalletInfo | null> {
         if (!this.isMetaMaskInstalled()) {
-            alert('Please install MetaMask to connect your wallet!');
+            // Show toast instead of alert for better UX
+            try {
+                useToastStore.getState().addToast('Please install MetaMask to connect your wallet!', 'warning');
+            } catch {
+                // Fallback: console.warn if toast store is not available in this context
+                console.warn('Please install MetaMask to connect your wallet!');
+            }
             return null;
         }
 

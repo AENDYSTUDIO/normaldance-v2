@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NORMAL DANCE — Pitch Deck</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/black.css" id="theme">
+  <style>
+    .accent { color: #8b5cf6; }
+    .small { font-size: 0.9rem; color: #9ca3af; }
+    .grid-2 { display:grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    img.mock { border-radius: 12px; border: 1px solid #222; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>NORMAL DANCE</h2>
+        <p class="accent">Web3 Music Platform Boilerplate</p>
+        <p class="small">React + Vite + Zustand + Web3 + IPFS + Supabase-ready</p>
+      </section>
+
+      <section>
+        <h3>Problem / Opportunity</h3>
+        <ul>
+          <li>Building music dApp: player, IPFS, wallet, SEO, tests</li>
+          <li>Production setup takes weeks</li>
+          <li><b>Save 4–6 weeks</b> with our starter</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Product Screens</h3>
+        <div class="grid-2">
+          <div>
+            <ul>
+              <li>Feed, Trends, Library, Upload</li>
+              <li>NFT, Wallet, Staking, Statistics</li>
+              <li>Player: playlist, repeat/shuffle, persistence</li>
+            </ul>
+          </div>
+          <div>
+            <img class="mock" src="https://picsum.photos/seed/feed/640/360" alt="Feed"/>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h3>Architecture</h3>
+        <ul>
+          <li>React 18 + Vite + Tailwind</li>
+          <li>Zustand stores (tracks/player/auth/toasts)</li>
+          <li>ethers (MetaMask), ipfs-http-client (Pinata/mock)</li>
+          <li>Supabase-ready (auth/CRUD)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Features</h3>
+        <ul>
+          <li>Persistent audio player + playlist controls</li>
+          <li>IPFS upload with fallback + metadata</li>
+          <li>NFT marketplace UI + Wallet connect</li>
+          <li>Analytics, SEO, lazy routes, chunk split</li>
+          <li>ESLint/Prettier/Husky/Vitest</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Value Proposition</h3>
+        <ul>
+          <li>Ship a working demo fast</li>
+          <li>Clean code, docs, tests, CHANGELOG</li>
+          <li>Clear extension points</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Roadmap</h3>
+        <ul>
+          <li>Supabase CRUD end-to-end</li>
+          <li>Enhanced Upload UX</li>
+          <li>NFT mint/list examples</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Call to Action</h3>
+        <p class="accent">$9,990 (fast sell)</p>
+        <p>With setup: $12,500–15,000</p>
+        <p class="small">Includes repo handover + 10h support</p>
+        <p class="small">Contact: andykachess@gmail.com • @andykachess</p>
+      </section>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({ hash: true });
+  </script>
+</body>
+</html>

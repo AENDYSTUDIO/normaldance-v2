@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import type React from 'react';
 import { usePlayerStore } from '../stores/usePlayerStore';
 import { useTracksStore } from '../stores/useTracksStore';
 import { useToastStore } from '../stores/useToastStore';

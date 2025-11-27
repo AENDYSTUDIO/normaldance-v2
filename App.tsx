@@ -14,6 +14,20 @@ const App = () => {
     loadTracks();
   }, [loadTracks]);
 
+  // Prefetch popular routes when idle
+  useEffect(() => {
+    const prefetch = () => {
+      // Prefetch Feed and Trends route chunks
+      import('./pages/Feed');
+      import('./pages/Trends');
+    };
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(prefetch);
+    } else {
+      setTimeout(prefetch, 1500);
+    }
+  }, []);
+
   return (
     <HelmetProvider>
       <BrowserRouter>

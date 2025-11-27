@@ -4,9 +4,10 @@ import { Play, Heart } from 'lucide-react';
 import { Track } from '../types';
 import { useTracksStore } from '../stores/useTracksStore';
 import { usePlayerStore } from '../stores/usePlayerStore';
+import { TrackCardSkeleton } from '../components/Skeleton';
 
 export const Feed: React.FC = () => {
-  const { tracks } = useTracksStore();
+  const { tracks, isLoading } = useTracksStore();
   const { setTrack, setPlaylist } = usePlayerStore();
 
   const handlePlay = (track: Track, index: number = 0) => {
@@ -30,6 +31,7 @@ export const Feed: React.FC = () => {
             <img
               src="https://picsum.photos/1200/400?random=hero"
               alt="Featured"
+              loading="lazy"
               className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-8">
@@ -51,9 +53,11 @@ export const Feed: React.FC = () => {
         <div>
           <h3 className="text-2xl font-bold text-white mb-6 font-display">For You</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {tracks.map((track, index) => (
-              <TrackCard key={track.id} track={track} onPlay={() => handlePlay(track, index)} />
-            ))}
+            {isLoading
+              ? Array.from({ length: 8 }).map((_, i) => <TrackCardSkeleton key={i} />)
+              : tracks.map((track, index) => (
+                  <TrackCard key={track.id} track={track} onPlay={() => handlePlay(track, index)} />
+                ))}
           </div>
         </div>
 
@@ -84,7 +88,7 @@ export const Feed: React.FC = () => {
 const TrackCard: React.FC<{ track: Track; onPlay: () => void }> = ({ track, onPlay }) => (
   <div className="glass-panel p-4 rounded-2xl hover:bg-white/5 transition group">
     <div className="relative aspect-square rounded-xl overflow-hidden mb-4">
-      <img src={track.coverUrl} alt={track.title} className="w-full h-full object-cover" />
+      <img src={track.coverUrl} alt={track.title} loading="lazy" className="w-full h-full object-cover" />
       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center space-x-4">
         <button
           onClick={(e) => { e.stopPropagation(); onPlay(); }}
